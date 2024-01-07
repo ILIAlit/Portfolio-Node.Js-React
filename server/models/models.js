@@ -1,9 +1,16 @@
 const sequelize = require('../data/db');
 const {DataTypes} = require('sequelize');
 
-const Developer = sequelize.define('developer', {
+const Admin = sequelize.define('admin', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
   role: {type: DataTypes.STRING, unique:true, defaultValue: 'admin'},
+  login: {type: DataTypes.STRING, defaultValue: 'adminIlia'},
+  password:{type: DataTypes.STRING, defaultValue: '20042008asdA@'},
+})
+
+const Developer = sequelize.define('developer', {
+  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+  role: {type: DataTypes.STRING, unique:true, defaultValue: 'develloper'},
   firstName: {type: DataTypes.STRING},
   lastName: {type: DataTypes.STRING},
   email: {type: DataTypes.STRING},
@@ -29,8 +36,11 @@ const PostContent = sequelize.define('postContent', {
 Post.hasOne(PostContent, {onDelete: 'cascade'});
 PostContent.belongsTo(Post);
 
+Admin.findOrCreate({where: {role: 'admin'}});
+
 module.exports = {
   Developer,
   Post,
   PostContent,
+  Admin,
 }

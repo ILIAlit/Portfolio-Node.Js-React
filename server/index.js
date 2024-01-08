@@ -7,6 +7,7 @@ const fileUpload = require('express-fileupload');
 const router = require('./routes/index');
 const errorHandler = require('./middleware/ErrorHandlingMiddleware');
 const path = require('path');
+const bcrypt = require('bcrypt');
 
 const PORT = process.env.PORT;
 
@@ -20,10 +21,22 @@ app.use('/api', router);
 
 app.use(errorHandler);
 
+
 const start = async () => {
   try {
     await sequelize.authenticate();
     await sequelize.sync();
+
+    const password = '20042008asdA';
+    const hashPassword = await bcrypt.hash(password, 5);
+    await models.Admin.findOrCreate({
+      where: {role: 'ADMIN'},
+      defaults: {
+        login: 'adminIlia',
+        role: 'ADMIN',
+        password: hashPassword,
+      }
+    });
     app.listen(PORT, () => {
       console.log("server ok!");
     });

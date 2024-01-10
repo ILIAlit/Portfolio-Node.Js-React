@@ -1,11 +1,11 @@
 import styles from "../../styles/style-blog.module.css";
 
-const PhotoPreview = (props) => {
+const PhotoPreview = ({img, title}) => {
   return (
     <div className={styles.main__project}>
-                    <div className={styles.main__hovering}></div>
-                    <img src={props.img} alt="photo"/>
-                </div>
+      <div className={styles.main__hovering}></div>
+      <img src={img} alt={title}/>
+    </div>
   );
 }
 
